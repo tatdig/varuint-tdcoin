@@ -1,6 +1,6 @@
 {
   "name": "varuint-bitcoin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "encode/decode number as bitcoin variable length integer",
   "homepage": "https://github.com/fanatid/varuint-bitcoin",
   "bugs": {
@@ -21,8 +21,7 @@
     "test": "npm run lint && npm run unit",
     "unit": "tap --cov test/*.js"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "standard": "^6.0.7",
     "tap": "^5.7.0"
