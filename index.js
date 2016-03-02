@@ -1,4 +1,4 @@
-'use struct'
+'use strict'
 function checkUInt53 (n) {
   // Number.MAX_SAFE_INTEGER
   if (n < 0 || n > 9007199254740991 || n % 1 !== 0) throw new RangeError('value out of range')
