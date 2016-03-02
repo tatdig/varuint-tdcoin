@@ -1,0 +1,30 @@
+{
+  "name": "varuint-bitcoin",
+  "version": "1.0.0",
+  "description": "encode/decode number as bitcoin variable length integer",
+  "homepage": "https://github.com/fanatid/varuint-bitcoin",
+  "bugs": {
+    "url": "https://github.com/fanatid/varuint-bitcoin/issues"
+  },
+  "license": "MIT",
+  "author": "Kirill Fomichev <fanatid@ya.ru> (http://github.com/fanatid)",
+  "files": [
+    "index.js"
+  ],
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fanatid/varuint-bitcoin.git"
+  },
+  "scripts": {
+    "lint": "standard",
+    "test": "npm run lint && npm run unit",
+    "unit": "tap --cov test/*.js"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "standard": "^6.0.7",
+    "tap": "^5.7.0"
+  }
+}
