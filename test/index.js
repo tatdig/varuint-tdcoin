@@ -1,49 +1,64 @@
 'use strict'
 var test = require('tape').test
-var BitcoinVarInt = require('../')
+var varuint = require('../')
+
+var fixtures = require('./fixtures')
+
+fixtures.valid.forEach(function (fixture, i) {
+  test('valid encode #' + (i + 1), function (t) {
+    t.same(varuint.encode(fixture.dec).toString('hex'), fixture.hex)
+    t.same(varuint.encode.bytes, fixture.hex.length / 2)
+    t.end()
+  })
+
+  test('valid decode #' + (i + 1), function (t) {
+    t.same(varuint.decode(new Buffer(fixture.hex, 'hex')), fixture.dec)
+    t.same(varuint.decode.bytes, fixture.hex.length / 2)
+    t.end()
+  })
+
+  test('valid encodingLength #' + (i + 1), function (t) {
+    t.same(varuint.encodingLength(fixture.dec), fixture.hex.length / 2)
+    t.end()
+  })
+})
+
+fixtures.invalid.forEach(function (fixture, i) {
+  test('invalid encode #' + (i + 1), function (t) {
+    t.throws(function () {
+      varuint.encode(fixture.dec)
+    }, new RegExp(fixture.msg))
+    t.end()
+  })
+
+  test('invalid encodingLength #' + (i + 1), function (t) {
+    t.throws(function () {
+      varuint.encodingLength(fixture.dec)
+    }, new RegExp(fixture.msg))
+    t.end()
+  })
+
+  if (fixture.hex) {
+    test('invalid decode #' + (i + 1), function (t) {
+      t.throws(function () {
+        t.decode(varuint.decode(new Buffer(fixture.hex, 'hex')))
+      }, new RegExp(fixture.msg))
+      t.end()
+    })
+  }
+})
 
 test('encode', function (t) {
-  t.test('0xfc', function (t) {
-    t.same(BitcoinVarInt.encode(0xfc).toString('hex'), 'fc')
-    t.same(BitcoinVarInt.encode.bytes, 1)
-    t.end()
-  })
-
-  t.test('0xfd', function (t) {
-    t.same(BitcoinVarInt.encode(0xfd).toString('hex'), 'fdfd00')
-    t.same(BitcoinVarInt.encode.bytes, 3)
-    t.end()
-  })
-
-  t.test('0xffff', function (t) {
-    t.same(BitcoinVarInt.encode(0xffff).toString('hex'), 'fdffff')
-    t.same(BitcoinVarInt.encode.bytes, 3)
-    t.end()
-  })
-
-  t.test('0xffffffff', function (t) {
-    t.same(BitcoinVarInt.encode(0xffffffff).toString('hex'), 'feffffffff')
-    t.same(BitcoinVarInt.encode.bytes, 5)
-    t.end()
-  })
-
-  t.test('-1', function (t) {
-    t.throws(function () {
-      BitcoinVarInt.encode(-1)
-    }, new RangeError('value out of range'))
-    t.end()
-  })
-
   t.test('write to buffer with offset', function (t) {
     var buffer = new Buffer([0x00, 0x00])
-    t.same(BitcoinVarInt.encode(0xfc, buffer, 1).toString('hex'), '00fc')
-    t.same(BitcoinVarInt.encode.bytes, 1)
+    t.same(varuint.encode(0xfc, buffer, 1).toString('hex'), '00fc')
+    t.same(varuint.encode.bytes, 1)
     t.end()
   })
 
   t.test('should be a buffer', function (t) {
     t.throws(function () {
-      BitcoinVarInt.encode(0, [])
+      varuint.encode(0, [])
     }, new TypeError('buffer must be a Buffer instance'))
     t.end()
   })
@@ -52,98 +67,17 @@ test('encode', function (t) {
 })
 
 test('decode', function (t) {
-  t.test('0xfc', function (t) {
-    t.same(BitcoinVarInt.decode(new Buffer('fc', 'hex')), 0xfc)
-    t.same(BitcoinVarInt.decode.bytes, 1)
-    t.end()
-  })
-
-  t.test('0xfdf00f', function (t) {
-    t.same(BitcoinVarInt.decode(new Buffer('fdf00f', 'hex')), 0x0ff0)
-    t.same(BitcoinVarInt.decode.bytes, 3)
-    t.end()
-  })
-
-  t.test('0xfef00fecba', function (t) {
-    t.same(BitcoinVarInt.decode(new Buffer('fef00fecba', 'hex')), 0xbaec0ff0)
-    t.same(BitcoinVarInt.decode.bytes, 5)
-    t.end()
-  })
-
-  t.test('0xff000000ff00000000', function (t) {
-    t.same(BitcoinVarInt.decode(new Buffer('ff000000ff00000000', 'hex')), 0xff000000)
-    t.same(BitcoinVarInt.decode.bytes, 9)
-    t.end()
-  })
-
-  t.test('0xffffffffff00002000 throws Error', function (t) {
-    t.throws(function () {
-      BitcoinVarInt.decode(new Buffer('ffffffffff00002000', 'hex'))
-    }, new RangeError('value out of range'))
-    t.end()
-  })
-
   t.test('read from buffer with offset', function (t) {
     var buffer = new Buffer([0x00, 0xfc])
-    t.same(BitcoinVarInt.decode(buffer, 1), 0xfc)
-    t.same(BitcoinVarInt.encode.bytes, 1)
+    t.same(varuint.decode(buffer, 1), 0xfc)
+    t.same(varuint.decode.bytes, 1)
     t.end()
   })
 
   t.test('should be a buffer', function (t) {
     t.throws(function () {
-      BitcoinVarInt.decode([])
+      varuint.decode([])
     }, new TypeError('buffer must be a Buffer instance'))
-    t.end()
-  })
-
-  t.end()
-})
-
-test('encodingLength', function (t) {
-  t.test('-1', function (t) {
-    t.throws(function () {
-      BitcoinVarInt.encodingLength(-1)
-    }, new RangeError('value out of range'))
-    t.end()
-  })
-
-  t.test('2**53', function (t) {
-    t.throws(function () {
-      BitcoinVarInt.encodingLength(9007199254740992)
-    }, new RangeError('value out of range'))
-    t.end()
-  })
-
-  t.test('0.1', function (t) {
-    t.throws(function () {
-      BitcoinVarInt.encodingLength(0.1)
-    }, new RangeError('value out of range'))
-    t.end()
-  })
-
-  t.test('0', function (t) {
-    t.same(BitcoinVarInt.encodingLength(0), 1)
-    t.end()
-  })
-
-  t.test('0xfc', function (t) {
-    t.same(BitcoinVarInt.encodingLength(0xfc), 1)
-    t.end()
-  })
-
-  t.test('0xfd', function (t) {
-    t.same(BitcoinVarInt.encodingLength(0xfd), 3)
-    t.end()
-  })
-
-  t.test('0xffff', function (t) {
-    t.same(BitcoinVarInt.encodingLength(0xffff), 3)
-    t.end()
-  })
-
-  t.test('0xffffffff', function (t) {
-    t.same(BitcoinVarInt.encodingLength(0xffffffff), 5)
     t.end()
   })
 
