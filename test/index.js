@@ -16,14 +16,14 @@ test('encode', function (t) {
   })
 
   t.test('0xffff', function (t) {
-    t.same(BitcoinVarInt.encode(0xffff).toString('hex'), 'feffff0000')
-    t.same(BitcoinVarInt.encode.bytes, 5)
+    t.same(BitcoinVarInt.encode(0xffff).toString('hex'), 'fdffff')
+    t.same(BitcoinVarInt.encode.bytes, 3)
     t.end()
   })
 
   t.test('0xffffffff', function (t) {
-    t.same(BitcoinVarInt.encode(0xffffffff).toString('hex'), 'ffffffffff00000000')
-    t.same(BitcoinVarInt.encode.bytes, 9)
+    t.same(BitcoinVarInt.encode(0xffffffff).toString('hex'), 'feffffffff')
+    t.same(BitcoinVarInt.encode.bytes, 5)
     t.end()
   })
 
@@ -138,12 +138,12 @@ test('encodingLength', function (t) {
   })
 
   t.test('0xffff', function (t) {
-    t.same(BitcoinVarInt.encodingLength(0xffff), 5)
+    t.same(BitcoinVarInt.encodingLength(0xffff), 3)
     t.end()
   })
 
   t.test('0xffffffff', function (t) {
-    t.same(BitcoinVarInt.encodingLength(0xffffffff), 9)
+    t.same(BitcoinVarInt.encodingLength(0xffffffff), 5)
     t.end()
   })
 

@@ -12,11 +12,11 @@ function encode (n, buffer, offset) {
   if (n < 0xfd) {
     buffer.writeUInt8(n, offset)
     encode.bytes = 1
-  } else if (n < 0xffff) {
+  } else if (n <= 0xffff) {
     buffer.writeUInt8(0xfd, offset)
     buffer.writeUInt16LE(n, offset + 1)
     encode.bytes = 3
-  } else if (n < 0xffffffff) {
+  } else if (n <= 0xffffffff) {
     buffer.writeUInt8(0xfe, offset)
     buffer.writeUInt32LE(n, offset + 1)
     encode.bytes = 5
@@ -56,8 +56,8 @@ function encodingLength (n) {
   checkUInt53(n)
   return (
     n < 0xfd ? 1
-  : n < 0xffff ? 3
-  : n < 0xffffffff ? 5
+  : n <= 0xffff ? 3
+  : n <= 0xffffffff ? 5
   : 9
   )
 }
