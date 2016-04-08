@@ -1,8 +1,8 @@
 'use strict'
-var tap = require('tap')
+var test = require('tape').test
 var BitcoinVarInt = require('../')
 
-tap.test('encode', function (t) {
+test('encode', function (t) {
   t.test('0xfc', function (t) {
     t.same(BitcoinVarInt.encode(0xfc).toString('hex'), 'fc')
     t.same(BitcoinVarInt.encode.bytes, 1)
@@ -51,7 +51,7 @@ tap.test('encode', function (t) {
   t.end()
 })
 
-tap.test('decode', function (t) {
+test('decode', function (t) {
   t.test('0xfc', function (t) {
     t.same(BitcoinVarInt.decode(new Buffer('fc', 'hex')), 0xfc)
     t.same(BitcoinVarInt.decode.bytes, 1)
@@ -100,7 +100,7 @@ tap.test('decode', function (t) {
   t.end()
 })
 
-tap.test('encodingLength', function (t) {
+test('encodingLength', function (t) {
   t.test('-1', function (t) {
     t.throws(function () {
       BitcoinVarInt.encodingLength(-1)

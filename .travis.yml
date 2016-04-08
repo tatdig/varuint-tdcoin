@@ -12,5 +12,6 @@ matrix:
     - node_js: "4"
       env: TEST_SUITE=lint
 env:
+  - TEST_SUITE=coverage
   - TEST_SUITE=unit
 script: npm run-script $TEST_SUITE
