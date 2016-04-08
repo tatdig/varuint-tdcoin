@@ -1,6 +1,6 @@
 {
   "name": "varuint-bitcoin",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "encode/decode number as bitcoin variable length integer",
   "homepage": "https://github.com/fanatid/varuint-bitcoin",
   "bugs": {
