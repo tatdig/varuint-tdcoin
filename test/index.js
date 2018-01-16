@@ -1,5 +1,6 @@
 'use strict'
 var test = require('tape').test
+var Buffer = require('safe-buffer').Buffer
 var varuint = require('../')
 
 var fixtures = require('./fixtures')
@@ -12,7 +13,7 @@ fixtures.valid.forEach(function (fixture, i) {
   })
 
   test('valid decode #' + (i + 1), function (t) {
-    t.same(varuint.decode(new Buffer(fixture.hex, 'hex')), fixture.dec)
+    t.same(varuint.decode(Buffer.from(fixture.hex, 'hex')), fixture.dec)
     t.same(varuint.decode.bytes, fixture.hex.length / 2)
     t.end()
   })
@@ -41,7 +42,7 @@ fixtures.invalid.forEach(function (fixture, i) {
   if (fixture.hex) {
     test('invalid decode #' + (i + 1), function (t) {
       t.throws(function () {
-        t.decode(varuint.decode(new Buffer(fixture.hex, 'hex')))
+        t.decode(varuint.decode(Buffer.from(fixture.hex, 'hex')))
       }, new RegExp(fixture.msg))
       t.end()
     })
@@ -50,7 +51,7 @@ fixtures.invalid.forEach(function (fixture, i) {
 
 test('encode', function (t) {
   t.test('write to buffer with offset', function (t) {
-    var buffer = new Buffer([0x00, 0x00])
+    var buffer = Buffer.from([0x00, 0x00])
     t.same(varuint.encode(0xfc, buffer, 1).toString('hex'), '00fc')
     t.same(varuint.encode.bytes, 1)
     t.end()
@@ -68,7 +69,7 @@ test('encode', function (t) {
 
 test('decode', function (t) {
   t.test('read from buffer with offset', function (t) {
-    var buffer = new Buffer([0x00, 0xfc])
+    var buffer = Buffer.from([0x00, 0xfc])
     t.same(varuint.decode(buffer, 1), 0xfc)
     t.same(varuint.decode.bytes, 1)
     t.end()

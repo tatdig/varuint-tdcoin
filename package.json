@@ -22,9 +22,11 @@
     "test": "npm run lint && npm run unit",
     "unit": "tape test/*.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "safe-buffer": "^5.1.1"
+  },
   "devDependencies": {
-    "nyc": "^6.2.1",
+    "nyc": "^11.4.1",
     "standard": "*",
     "tape": "^4.5.1"
   }
