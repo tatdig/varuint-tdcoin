@@ -9,9 +9,11 @@
   "license": "MIT",
   "author": "Kirill Fomichev <fanatid@ya.ru> (http://github.com/fanatid)",
   "files": [
-    "index.js"
+    "index.js",
+    "index.d.ts"
   ],
   "main": "./index.js",
+  "types": "./index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/bitcoinjs/varuint-bitcoin.git"
