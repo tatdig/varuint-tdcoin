@@ -1,6 +1,6 @@
 {
   "name": "varuint-bitcoin",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "encode/decode number as bitcoin variable length integer",
   "homepage": "https://github.com/bitcoinjs/varuint-bitcoin",
   "bugs": {
@@ -28,7 +28,7 @@
     "safe-buffer": "^5.1.1"
   },
   "devDependencies": {
-    "nyc": "^11.4.1",
+    "nyc": "^14.1.1",
     "standard": "*",
     "tape": "^4.5.1"
   }
