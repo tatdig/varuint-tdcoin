@@ -1,4 +1,13 @@
 /// <reference types="node" />
-export declare function encode(_number: number, buffer: Buffer, offset: number): Buffer;
-export declare function decode(buffer: Buffer, offset: number): number;
-export declare function encodingLength(_number: number): number;
+interface Encode {
+    (num: number, buffer?: Buffer, offset?: number): Buffer;
+    bytes: number;
+}
+declare const encode: Encode;
+interface Decode {
+    (buffer: Buffer, offset?: number): number;
+    bytes: number;
+}
+declare const decode: Decode;
+declare function encodingLength(num: number): number;
+export { encode, decode, encodingLength };
