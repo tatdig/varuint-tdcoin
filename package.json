@@ -2,9 +2,9 @@
   "name": "varuint-tdcoin",
   "version": "1.1.2",
   "description": "encode/decode number as bitcoin variable length integer",
-  "homepage": "https://github.com/tatdig/varuint-bitcoin",
+  "homepage": "https://github.com/tatdig/varuint-tdcoin",
   "bugs": {
-    "url": "https://github.com/tatdig/varuint-bitcoin/issues"
+    "url": "https://github.com/tatdig/varuint-tdcoin/issues"
   },
   "license": "MIT",
   "author": "Kirill Fomichev <fanatid@ya.ru> (http://github.com/fanatid)",
@@ -16,7 +16,7 @@
   "types": "./index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tatdig/varuint-bitcoin.git"
+    "url": "https://github.com/tatdig/varuint-tdcoin.git"
   },
   "scripts": {
     "coverage": "nyc --check-coverage --branches 100 --functions 100 tape test/*.js",
